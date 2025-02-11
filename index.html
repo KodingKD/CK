@@ -108,11 +108,13 @@
       const maxX = containerRect.width - buttonRect.width;
       const maxY = containerRect.height - buttonRect.height;
 
-      // Ensure the button moves but stays within the buttons container
+      // Generate random X and Y within the container
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
-      noButton.style.transform = `translate(${x}px, ${y}px)`;
+      // Move the button
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
     }
 
     function celebrate() {
