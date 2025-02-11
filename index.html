@@ -73,8 +73,13 @@
       font-size: 0.9em;
       border-radius: 5px;
       white-space: nowrap;
-      display: none;
+      opacity: 0;
       transform: translate(-50%, -120%);
+      transition: opacity 0.3s ease-in-out;
+      pointer-events: none;
+    }
+    .tooltip.show {
+      opacity: 1;
     }
   </style>
 </head>
@@ -118,11 +123,13 @@
       // Update tooltip text
       tooltip.innerText = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
       
-      // Show the tooltip above the "No" button
-      tooltip.style.display = "block";
+      // Position tooltip above the "No" button
       const buttonRect = noButton.getBoundingClientRect();
       tooltip.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
-      tooltip.style.top = `${buttonRect.top - 30}px`;
+      tooltip.style.top = `${buttonRect.top - 10}px`;
+
+      // Show the tooltip
+      tooltip.classList.add("show");
 
       const buttonsContainer = document.querySelector(".buttons");
       const containerRect = buttonsContainer.getBoundingClientRect();
@@ -140,7 +147,7 @@
 
       // Hide tooltip after a short delay
       setTimeout(() => {
-        tooltip.style.display = "none";
+        tooltip.classList.remove("show");
       }, 1000);
     }
 
