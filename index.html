@@ -35,7 +35,8 @@
     .buttons {
       margin-top: 20px;
       position: relative;
-      height: 50px;
+      width: 100%;
+      height: 80px;
     }
     button {
       font-size: 1.2em;
@@ -49,7 +50,7 @@
       background-color: #ff4d79;
       color: white;
       transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-      left: 50%;
+      left: 30%;
       transform: translateX(-50%);
     }
     .yes:hover {
@@ -61,7 +62,19 @@
       color: #ff4d79;
       transition: all 0.3s ease-in-out;
       left: 70%;
-      user-select: none; /* Prevent text selection */
+      user-select: none;
+    }
+    /* Tooltip styling */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 5px 10px;
+      font-size: 0.9em;
+      border-radius: 5px;
+      white-space: nowrap;
+      display: none;
+      transform: translate(-50%, -120%);
     }
   </style>
 </head>
@@ -83,6 +96,7 @@
     <div class="buttons">
       <button class="yes" onclick="celebrate()">Yes</button>
       <button class="no" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
+      <div class="tooltip" id="tooltip">Nice try! 😆</div>
     </div>
     <p>With love,</p>
     <p class="signature">KD ❤️</p>
@@ -91,6 +105,8 @@
   <script>
     function moveButton() {
       const noButton = document.querySelector(".no");
+      const tooltip = document.querySelector("#tooltip");
+
       const funnyTexts = [
         "Nice try! 😆",
         "Come on now... 😂",
@@ -98,23 +114,34 @@
         "Just say yes already! 😘",
         "Are you really trying to run? 🏃‍♀️💨"
       ];
-      noButton.innerText = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
       
+      // Update tooltip text
+      tooltip.innerText = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+      
+      // Show the tooltip above the "No" button
+      tooltip.style.display = "block";
+      const buttonRect = noButton.getBoundingClientRect();
+      tooltip.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
+      tooltip.style.top = `${buttonRect.top - 30}px`;
+
       const buttonsContainer = document.querySelector(".buttons");
       const containerRect = buttonsContainer.getBoundingClientRect();
-      const buttonRect = noButton.getBoundingClientRect();
+      const noButtonRect = noButton.getBoundingClientRect();
 
-      // Calculate max X and Y within the container
-      const maxX = containerRect.width - buttonRect.width;
-      const maxY = containerRect.height - buttonRect.height;
+      // Ensure button does not overlap with "Yes" button
+      let x, y;
+      do {
+        x = Math.random() * (containerRect.width - noButtonRect.width);
+        y = Math.random() * (containerRect.height - noButtonRect.height);
+      } while (x < containerRect.width * 0.3 && y < containerRect.height * 0.5);
 
-      // Generate random X and Y within the container
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      // Move the button
       noButton.style.left = `${x}px`;
       noButton.style.top = `${y}px`;
+
+      // Hide tooltip after a short delay
+      setTimeout(() => {
+        tooltip.style.display = "none";
+      }, 1000);
     }
 
     function celebrate() {
