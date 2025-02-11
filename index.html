@@ -61,6 +61,7 @@
       color: #ff4d79;
       transition: all 0.3s ease-in-out;
       left: 70%;
+      user-select: none; /* Prevent text selection */
     }
   </style>
 </head>
@@ -81,7 +82,7 @@
     </p>
     <div class="buttons">
       <button class="yes" onclick="celebrate()">Yes</button>
-      <button class="no" onmouseover="moveButton()">No</button>
+      <button class="no" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
     </div>
     <p>With love,</p>
     <p class="signature">KD ❤️</p>
@@ -90,14 +91,25 @@
   <script>
     function moveButton() {
       const noButton = document.querySelector(".no");
-      const maxX = window.innerWidth - 100; // Keep within screen width
-      const maxY = window.innerHeight - 100; // Keep within screen height
+      const buttonsContainer = document.querySelector(".buttons");
+      const containerRect = buttonsContainer.getBoundingClientRect();
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      // Calculate max X and Y within the container
+      const maxX = containerRect.width - buttonWidth;
+      const maxY = containerRect.height - buttonHeight;
+
+      // Generate random X and Y within the container
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
+
+      // Move the button
       noButton.style.left = `${x}px`;
       noButton.style.top = `${y}px`;
     }
 
+ 
    function celebrate() {
   document.body.innerHTML = `
     <div style="text-align: center; padding: 20px;">
