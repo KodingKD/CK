@@ -38,6 +38,9 @@
       margin-top: 20px;
       position: relative;
       height: 60px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
     button {
       font-size: 1.2em;
@@ -45,7 +48,7 @@
       border: none;
       cursor: pointer;
       border-radius: 5px;
-      position: absolute;
+      position: relative;
     }
     .yes {
       background-color: #ff4d79;
@@ -87,12 +90,31 @@
   <script>
     function moveButton() {
       const noButton = document.querySelector(".no");
+      const yesButton = document.querySelector(".yes");
+      
       const maxX = window.innerWidth - noButton.offsetWidth - 20;
       const maxY = window.innerHeight - noButton.offsetHeight - 20;
 
-      const newX = Math.random() * maxX;
-      const newY = Math.random() * maxY;
+      let newX = Math.random() * maxX;
+      let newY = Math.random() * maxY;
 
+      // Prevent the "No" button from overlapping the "Yes" button
+      const yesRect = yesButton.getBoundingClientRect();
+      const noRect = noButton.getBoundingClientRect();
+
+      const buffer = 50; // Space buffer to avoid overlap
+
+      if (
+        newX >= yesRect.left - buffer && 
+        newX <= yesRect.right + buffer &&
+        newY >= yesRect.top - buffer && 
+        newY <= yesRect.bottom + buffer
+      ) {
+        newX = yesRect.right + buffer;
+        newY = yesRect.bottom + buffer;
+      }
+
+      noButton.style.position = "absolute";
       noButton.style.left = `${newX}px`;
       noButton.style.top = `${newY}px`;
     }
@@ -102,14 +124,18 @@
         <div style="text-align: center; padding: 50px;">
           <h1>YAY! 🥰</h1>
           <p>You just made me the happiest person! Can't wait to celebrate with you. ❤️</p>
+          
           <img src="https://i.imgur.com/4sc7iH2.jpeg" 
                alt="A romantic moment of us together" 
-               style="max-width: 80%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer;"
+               style="max-width: 60%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer;"
                onclick="viewImage(this.src)">
+          
           <br><br>
+
           <img src="https://media.giphy.com/media/3oz8xwkMgHWr0p77va/giphy.gif" 
                alt="Happy couple dancing" 
-               style="max-width: 80%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+               style="max-width: 60%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+          
           <p><a href="#" onclick="location.reload()">Go back</a></p>
         </div>
       `;
