@@ -91,40 +91,45 @@
   <script>
     function moveButton() {
       const noButton = document.querySelector(".no");
+      const funnyTexts = [
+        "Nice try! 😆",
+        "Come on now... 😂",
+        "You don’t mean that! 😏",
+        "Just say yes already! 😘",
+        "Are you really trying to run? 🏃‍♀️💨"
+      ];
+      noButton.innerText = funnyTexts[Math.floor(Math.random() * funnyTexts.length)];
+      
       const buttonsContainer = document.querySelector(".buttons");
       const containerRect = buttonsContainer.getBoundingClientRect();
-      const buttonWidth = noButton.offsetWidth;
-      const buttonHeight = noButton.offsetHeight;
+      const buttonRect = noButton.getBoundingClientRect();
 
       // Calculate max X and Y within the container
-      const maxX = containerRect.width - buttonWidth;
-      const maxY = containerRect.height - buttonHeight;
+      const maxX = containerRect.width - buttonRect.width;
+      const maxY = containerRect.height - buttonRect.height;
 
-      // Generate random X and Y within the container
+      // Ensure the button moves but stays within the buttons container
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
-      // Move the button
-      noButton.style.left = `${x}px`;
-      noButton.style.top = `${y}px`;
+      noButton.style.transform = `translate(${x}px, ${y}px)`;
     }
 
- 
-   function celebrate() {
-  document.body.innerHTML = `
-    <div style="text-align: center; padding: 20px;">
-      <h1>YAY! 🥰</h1>
-      <p>You just made me the happiest person! Can't wait to celebrate with you. ❤️</p>
-      <br>
-      <img 
-        src="https://i.imgur.com/4sc7iH2.jpeg" 
-        alt="A romantic moment of us together" 
-        style="width: 30%; max-height: 200px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"
-      >
-      <p><a href="#" onclick="location.reload()">Go back</a></p>
-    </div>
-  `;
-}
+    function celebrate() {
+      document.body.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+          <h1>YAY! 🥰</h1>
+          <p>You just made me the happiest person! Can't wait to celebrate with you. ❤️</p>
+          <br>
+          <img 
+            src="https://i.imgur.com/4sc7iH2.jpeg" 
+            alt="A romantic moment of us together" 
+            style="width: 30%; max-height: 200px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"
+          >
+          <p><a href="#" onclick="location.reload()">Go back</a></p>
+        </div>
+      `;
+    }
   </script>
 </body>
 </html>
