@@ -15,14 +15,17 @@
       margin: 0;
       height: 100vh;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .container {
       max-width: 600px;
-      margin: auto;
       background: rgba(255, 255, 255, 0.2);
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
     }
     h1 {
       font-size: 2em;
@@ -34,6 +37,7 @@
     .buttons {
       margin-top: 20px;
       position: relative;
+      height: 60px;
     }
     button {
       font-size: 1.2em;
@@ -41,15 +45,21 @@
       border: none;
       cursor: pointer;
       border-radius: 5px;
+      position: absolute;
     }
     .yes {
       background-color: #ff4d79;
       color: white;
+      transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+    .yes:hover {
+      transform: scale(1.1);
+      background-color: #ff3366;
     }
     .no {
       background-color: #ffffff;
       color: #ff4d79;
-      position: absolute;
+      transition: all 0.3s ease-in-out;
     }
   </style>
 </head>
@@ -62,10 +72,13 @@
       So here we are—just you, me, and a very important question...
     </p>
     <h2>Will you be my Valentine? 🌹💘</h2>
+    <p><em>(Remember when I said girls love the opportunity to say no? Well, here’s yours... or at least, it was! 😏😂)</em></p>
+    
     <div class="buttons">
-      <button class="yes" onclick="alert('Yay! Best decision ever! ❤️')">Yes</button>
+      <button class="yes" onclick="celebrate()" aria-label="Yes, I'll be your Valentine">Yes</button>
       <button class="no" onmouseover="moveButton()" aria-label="No, I won't be your Valentine">No</button>
     </div>
+    
     <p>Clicking "Yes" is highly recommended. Clicking "No" would be crazy but damn😂. Anyway, good luck trying to do that😭</p>
     <p>With love,</p>
     <p class="signature">KD ❤️</p>
@@ -74,14 +87,37 @@
   <script>
     function moveButton() {
       const noButton = document.querySelector(".no");
-      const buttonWidth = noButton.offsetWidth;
-      const buttonHeight = noButton.offsetHeight;
-      const maxX = window.innerWidth - buttonWidth;
-      const maxY = window.innerHeight - buttonHeight;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noButton.style.left = `${x}px`;
-      noButton.style.top = `${y}px`;
+      const maxX = window.innerWidth - noButton.offsetWidth - 20;
+      const maxY = window.innerHeight - noButton.offsetHeight - 20;
+
+      const newX = Math.random() * maxX;
+      const newY = Math.random() * maxY;
+
+      noButton.style.left = `${newX}px`;
+      noButton.style.top = `${newY}px`;
+    }
+
+    function celebrate() {
+      document.body.innerHTML = `
+        <div style="text-align: center; padding: 50px;">
+          <h1>YAY! 🥰</h1>
+          <p>You just made me the happiest person! Can't wait to celebrate with you. ❤️</p>
+          <img src="https://i.imgur.com/4sc7iH2.jpeg" 
+               alt="A romantic moment of us together" 
+               style="max-width: 80%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer;"
+               onclick="viewImage(this.src)">
+          <br><br>
+          <img src="https://media.giphy.com/media/3oz8xwkMgHWr0p77va/giphy.gif" 
+               alt="Happy couple dancing" 
+               style="max-width: 80%; height: auto; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+          <p><a href="#" onclick="location.reload()">Go back</a></p>
+        </div>
+      `;
+    }
+
+    function viewImage(imageSrc) {
+      const newTab = window.open();
+      newTab.document.body.innerHTML = `<img src="${imageSrc}" style="width: 100%; height: auto;">`;
     }
   </script>
 </body>
